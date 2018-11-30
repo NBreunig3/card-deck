@@ -1,5 +1,6 @@
 package DeckOfCards;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -25,10 +26,14 @@ public class Deck {
     public Deck(boolean highAce, boolean jokers) {
         acesHigh = highAce;
         useJokers = jokers;
-        heartValue = 4;
-        diamondValue = 3;
-        clubValue = 2;
-        spadeValue = 1;
+        jokerValue = -1;
+        heartValue = 0;
+        spadeValue = 0;
+        clubValue = 0;
+        diamondValue = 0;
+        jackValue = 11;
+        queenValue = 12;
+        kingValue = 13;
 
         if (highAce){
             aceValue = 14;
@@ -45,10 +50,11 @@ public class Deck {
      */
     public Deck(boolean jokers, int aceValue, int jackValue, int queenValue, int kingValue) {
         useJokers = jokers;
-        heartValue = 4;
-        diamondValue = 3;
-        clubValue = 2;
-        spadeValue = 1;
+        jokerValue = 0;
+        heartValue = 0;
+        spadeValue = 0;
+        clubValue = 0;
+        diamondValue = 0;
         this.aceValue = aceValue;
         this.jackValue = jackValue;
         this.queenValue = queenValue;
@@ -74,16 +80,19 @@ public class Deck {
         clubValue = clubSuitValue;
         spadeValue = spadeSuitValue;
         diamondValue = diamondSuitValue;
+        jokerValue = 0;
+        jackValue = 11;
+        queenValue = 12;
+        kingValue = 13;
 
-        if (highAce){
+        if (highAce) {
             aceValue = 14;
-        }else{
+        } else {
             aceValue = 1;
         }
         resetDeck();
         shuffle();
     }
-
 
     private void resetDeck() {
         deck.clear();
@@ -159,6 +168,13 @@ public class Deck {
             deck.add(new Card(this, "Joker", ""));
             deck.add(new Card(this, "Joker", ""));
         }
+    }
+
+    /**
+     * Sorts the deck based on each cards value
+     */
+    public void sort(){
+        Collections.sort(myDeck);
     }
 
     /**
@@ -593,307 +609,65 @@ public class Deck {
         return hands.size();
     }
 
+    /**
+     * Sets the integer value for the ace card. Default value is 1
+     * @param aceValue integer value
+     */
     public void setAceValue(int aceValue){
         this.aceValue = aceValue;
     }
 
+    /**
+     * Gets the value of the ace card
+     * @return integer value
+     */
     public int getAceValue(){
         return aceValue;
     }
 
+    /**
+     * Sets the integer value for the jack card. Default value is 11
+     * @param jackValue integer value
+     */
     public void setJackValue(int jackValue){
         this.jackValue = jackValue;
     }
 
+    /**
+     * Gets the value of the jack card
+     * @return integer value
+     */
     public int getJackValue(){
         return jackValue;
     }
 
+    /**
+     * Sets the integer value of the queen car
+     * @param queenValue integer value
+     */
     public void setQueenValue(int queenValue){
         this.queenValue = queenValue;
     }
 
+    /**
+     * Gets the value of the queen card
+     * @return integer value
+     */
     public int getQueenValue(){
         return queenValue;
     }
 
+    /**
+     * Sets the value of the king card
+     * @param kingValue integer value
+     */
     public void setKingValue(int kingValue){
         this.kingValue = kingValue;
     }
 
+    /**
+     * Gets the value of the king card
+     * @return integer value
+     */
     public int getKingValue(){return kingValue;}
-
-    /**
-     * A card with a face value and suit
-     */
-    private class Card {
-        private String strCard;
-        private String suit;
-        private Deck cardDeck;
-
-        public Card(){}
-
-        /**
-         * Constructs a card with a face value and a suit
-         * @param card Card as string
-         * @param cardSuit Suit as String
-         */
-        public Card(Deck deck, String card, String cardSuit){
-            strCard = card;
-            suit = cardSuit;
-            cardDeck = deck;
-        }
-
-        /**
-         * Will get the face value of a card
-         * @return value of card
-         */
-        public int getValue() {
-            int value = 0;
-
-            if (strCard.equals("J")) {
-                value = cardDeck.getJackValue();
-            }else if (strCard.equals("Q")) {
-                value = cardDeck.getQueenValue();
-            }else if (strCard.equals("K")) {
-                value = cardDeck.getKingValue();
-            }else if (strCard.equals("Joker")){
-                value = cardDeck.getJokerValue();
-            }
-            else if (strCard.equals("A")) {
-                value = cardDeck.getAceValue();
-            }else{
-                value = Integer.parseInt(strCard);
-            }
-            return value;
-        }
-
-        public int getSuitValue(){
-            int value = 0;
-
-            if (suit.equals("Heart")){
-                value = cardDeck.getHeartValue();
-            }else if (suit.equals("Club")){
-                value = cardDeck.getClubValue();
-            }else if (suit.equals("Diamond")){
-                value = cardDeck.getDiamondValue();
-            }else if (suit.equals("Spade")){
-                value = cardDeck.getSpadeValue();
-            }
-            return value;
-        }
-
-        /**
-         * Will get the suit of a card
-         * @return Card suit as string
-         */
-        public String getSuit(){
-            return suit;
-        }
-
-
-        /**
-         * Gets the string of a card object
-         * @return The card as a string
-         */
-        public String toString(){
-
-            if (cardDeck.isAceHigh()) {
-                if (strCard.equals("14")) {
-                    return "A";
-                }
-            } else {
-                if (strCard.equals("1")){
-                    return "A";
-                }
-            }
-            if (strCard.equals("11")) {
-                return "J";
-            }else if (strCard.equals("12")) {
-                return "Q";
-            }else if (strCard.equals("13")) {
-                return "K";
-            } else{
-                return String.valueOf(strCard);
-            }
-        }
-    }
-
-    /**
-     * A players hand of cards
-     */
-    private class PlayerHand {
-        private ArrayList<Card> hand;
-
-        /**
-         * Constructs a PlayerHand
-         */
-        public PlayerHand(){
-            hand = new ArrayList<Card>();
-        }
-
-        /**
-         * Checking if a certain card (no matter suit) is in the hand
-         * @param card A card as string
-         * @return True if card is in hand, false otherwise
-         */
-        public boolean contains(String card){
-            for (int i = 0; i < hand.size(); i++){
-                if (hand.get(i).equals(card)){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * Checking if a certain card (suit included) is in the hand
-         * @param card A card as string
-         * @param suit A suit as string
-         * @return True if card is in hand, false otherwise
-         */
-        public boolean contains(String card, String suit){
-            for (int i = 0; i < hand.size(); i++){
-                if (hand.get(i).equals(card) && hand.get(i).getSuit().equals(suit)){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * Adds a card to the players hand
-         * @param card A Card object
-         */
-        public void add(Card card) {
-            hand.add(card);
-        }
-
-        /**
-         * Adds a card to the players hand
-         * @param pos The position to add it at (Ex. 1)
-         * @param card The card to add
-         */
-        public void add(int pos, Card card){
-            pos-=1;
-            hand.add(pos, card);
-        }
-
-        /**
-         * Adds a card to the front of the hand
-         * @param card The card to add
-         */
-        public void addFirst(Card card) {
-            hand.add(0, card);
-        }
-
-        /**
-         * Removes ALL cards of a certain value (no matter suit)
-         * @param card A card as a string
-         * @return A Card object
-         */
-        public Card remove(String card){
-            for (int i = 0; i < hand.size(); i++){
-                if (hand.get(i).toString().equals(card)){
-                    return hand.remove(i);
-                }
-            }
-            return null;
-        }
-
-        /**
-         * Removes a certain card (suit included)
-         * @param card A card as string
-         * @param suit A suit as string
-         * @return
-         */
-        public Card remove(String card, String suit){
-            for (int i = 0; i < hand.size(); i++){
-                if (hand.get(i).equals(card) && hand.get(i).getSuit().equals(suit)){
-                    return hand.remove(i);
-                }
-            }
-            return null;
-        }
-
-        /**
-         * Removes a random card from the hand
-         * @return A Card object
-         */
-        public Card removeRandom(){
-            Random rand = new Random();
-            if (hand.size() > 0){
-                return hand.remove(rand.nextInt(hand.size()));
-            }else{
-                throw new Error("No cards in hand");
-            }
-        }
-
-        /**
-         * Removes a card from the hand based on position
-         * @param pos Position of card in hand
-         * @return
-         */
-        public Card remove(int pos){
-            pos -= 1;
-            return hand.remove(pos);
-        }
-
-        /**
-         * Gets the size of the hand
-         * @return Size of hand as integer
-         */
-        public int getSize(){
-            return hand.size();
-        }
-
-        /**
-         * Gets a card from the hand based on position
-         * @param pos Position of card in hand
-         * @return
-         */
-        public Card get(int pos, boolean remove){
-            if (remove){
-                pos -=1;
-                return hand.remove(pos);
-            }else{
-                pos -=1;
-                return hand.get(pos);
-            }
-        }
-
-        public Card get(int pos){
-            pos-=1;
-            return hand.get(pos);
-        }
-
-        public Card getNext(boolean remove){
-            if (remove){
-                return hand.remove(0);
-            }else{
-                return hand.get(0);
-            }
-        }
-
-        /**
-         * Returns a simple string to visualize hand
-         * @return String of cards
-         */
-        public String toString(){
-            String string = "";
-
-            for (int i = 0; i < hand.size(); i++){
-                string += hand.get(i) + " ";
-            }
-
-            return string;
-        }
-
-        /**
-         * Clears player hand
-         */
-        public void clear(){
-            hand.clear();
-        }
-    }
 }
