@@ -1,11 +1,12 @@
 package DeckOfCards;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
  * A standard deck of playing cards with various useful methods
  * @author Nathan Breunig
- * @version 1.5.1
+ * @version 1.01
  */
 public class Deck {
     private ArrayList<Card> myDeck = new ArrayList<Card>();
@@ -13,11 +14,9 @@ public class Deck {
     private ArrayList<PlayerHand> hands = new ArrayList<PlayerHand>();
     private Random rand = new Random();
     private int randNum;
-    private boolean acesHigh;
-    private boolean useJokers;
+    private boolean acesHigh, useJokers;
     private int jokerValue, heartValue, spadeValue, clubValue, diamondValue;
     private int aceValue, jackValue, queenValue, kingValue;
-    private boolean blackjackMode = false;
 
     /**
      * Basic constructor to set ace high, and to see if the deck should contain two joker cards
@@ -27,10 +26,14 @@ public class Deck {
     public Deck(boolean highAce, boolean jokers) {
         acesHigh = highAce;
         useJokers = jokers;
-        heartValue = 4;
-        diamondValue = 3;
-        clubValue = 2;
-        spadeValue = 1;
+        jokerValue = -1;
+        heartValue = 0;
+        spadeValue = 0;
+        clubValue = 0;
+        diamondValue = 0;
+        jackValue = 11;
+        queenValue = 12;
+        kingValue = 13;
 
         if (highAce){
             aceValue = 14;
@@ -47,10 +50,11 @@ public class Deck {
      */
     public Deck(boolean jokers, int aceValue, int jackValue, int queenValue, int kingValue) {
         useJokers = jokers;
-        heartValue = 4;
-        diamondValue = 3;
-        clubValue = 2;
-        spadeValue = 1;
+        jokerValue = 0;
+        heartValue = 0;
+        spadeValue = 0;
+        clubValue = 0;
+        diamondValue = 0;
         this.aceValue = aceValue;
         this.jackValue = jackValue;
         this.queenValue = queenValue;
@@ -76,16 +80,19 @@ public class Deck {
         clubValue = clubSuitValue;
         spadeValue = spadeSuitValue;
         diamondValue = diamondSuitValue;
+        jokerValue = 0;
+        jackValue = 11;
+        queenValue = 12;
+        kingValue = 13;
 
-        if (highAce){
+        if (highAce) {
             aceValue = 14;
-        }else{
+        } else {
             aceValue = 1;
         }
         resetDeck();
         shuffle();
     }
-
 
     private void resetDeck() {
         deck.clear();
@@ -161,6 +168,13 @@ public class Deck {
             deck.add(new Card(this, "Joker", ""));
             deck.add(new Card(this, "Joker", ""));
         }
+    }
+
+    /**
+     * Sorts the deck based on each cards value
+     */
+    public void sort(){
+        Collections.sort(myDeck);
     }
 
     /**
@@ -595,33 +609,65 @@ public class Deck {
         return hands.size();
     }
 
+    /**
+     * Sets the integer value for the ace card. Default value is 1
+     * @param aceValue integer value
+     */
     public void setAceValue(int aceValue){
         this.aceValue = aceValue;
     }
 
+    /**
+     * Gets the value of the ace card
+     * @return integer value
+     */
     public int getAceValue(){
         return aceValue;
     }
 
+    /**
+     * Sets the integer value for the jack card. Default value is 11
+     * @param jackValue integer value
+     */
     public void setJackValue(int jackValue){
         this.jackValue = jackValue;
     }
 
+    /**
+     * Gets the value of the jack card
+     * @return integer value
+     */
     public int getJackValue(){
         return jackValue;
     }
 
+    /**
+     * Sets the integer value of the queen car
+     * @param queenValue integer value
+     */
     public void setQueenValue(int queenValue){
         this.queenValue = queenValue;
     }
 
+    /**
+     * Gets the value of the queen card
+     * @return integer value
+     */
     public int getQueenValue(){
         return queenValue;
     }
 
+    /**
+     * Sets the value of the king card
+     * @param kingValue integer value
+     */
     public void setKingValue(int kingValue){
         this.kingValue = kingValue;
     }
 
+    /**
+     * Gets the value of the king card
+     * @return integer value
+     */
     public int getKingValue(){return kingValue;}
 }

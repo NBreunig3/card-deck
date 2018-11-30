@@ -3,9 +3,8 @@ package DeckOfCards;
 /**
  * A card with a face value and suit
  * @author Nathan Breunig
- * @version 1.3.2
  */
-public class Card {
+public class Card implements Comparable<Card> {
     private String strCard;
     private String suit;
     private Deck cardDeck;
@@ -21,6 +20,27 @@ public class Card {
         strCard = card;
         suit = cardSuit;
         cardDeck = deck;
+    }
+
+    @Override
+    public int compareTo(Card card) {
+        if (this.getValue() < card.getValue()){
+            return -1;
+        }else if (this.getValue() > card.getValue()){
+            return 1;
+        }else{ //this = that...base off of suit
+            if (cardDeck.getHeartValue() == 0 && cardDeck.getSpadeValue() == 0 && cardDeck.getDiamondValue() == 0 && cardDeck.getClubValue() == 0){
+                return 0;
+            }else{ //else suits matter
+                if (this.getSuitValue() > card.getSuitValue()){
+                    return 1;
+                }else if (this.getSuitValue() < card.getSuitValue()){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            }
+        }
     }
 
     /**
@@ -40,7 +60,7 @@ public class Card {
             value = cardDeck.getJokerValue();
         }
         else if (strCard.equals("A")) {
-           value = cardDeck.getAceValue();
+            value = cardDeck.getAceValue();
         }else{
             value = Integer.parseInt(strCard);
         }
@@ -82,7 +102,7 @@ public class Card {
                 return "A";
             }
         } else {
-             if (strCard.equals("1")){
+            if (strCard.equals("1")){
                 return "A";
             }
         }

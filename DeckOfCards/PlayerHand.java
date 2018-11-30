@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * A players hand of cards
  * @author Nathan Breunig
- * @version 1.1
+ *
  */
 public class PlayerHand {
     private ArrayList<Card> hand;
@@ -60,7 +60,7 @@ public class PlayerHand {
      * @param pos The position to add it at (Ex. 1)
      * @param card The card to add
      */
-    public void add(int pos, Card card){
+    public void add(int pos,Card card){
         pos-=1;
         hand.add(pos, card);
     }
@@ -81,7 +81,7 @@ public class PlayerHand {
     public Card remove(String card){
         for (int i = 0; i < hand.size(); i++){
             if (hand.get(i).toString().equals(card)){
-               return hand.remove(i);
+                return hand.remove(i);
             }
         }
         return null;
