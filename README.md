@@ -1,5 +1,5 @@
 # card-deck
-A Java library used to simulate a 52 card playing deck. 
+A Java library used to simulate a 52 card playing deck by Nathan Breunig. 
 ### Features
   - Basic shuffling/removing/adding
   - Dealing
