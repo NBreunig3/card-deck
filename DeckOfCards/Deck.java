@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * A standard deck of playing cards with various useful methods
  * @author Nathan Breunig
- * @version 1.01
+ * @version 1.02
  */
 public class Deck {
     private ArrayList<Card> myDeck = new ArrayList<Card>();
@@ -175,6 +175,10 @@ public class Deck {
      */
     public void sort(){
         Collections.sort(myDeck);
+    }
+
+    public boolean isEmpty(){
+        return myDeck.isEmpty();
     }
 
     /**
@@ -385,6 +389,17 @@ public class Deck {
         return exist;
     }
 
+    public boolean contains(Card card){
+        boolean exist = false;
+
+        for (int i = 0; i < myDeck.size(); i++){
+            if (myDeck.get(i).toString().equals(card.toString())){
+                exist = true;
+            }
+        }
+        return exist;
+    }
+
     /**
      * Creates an ArrayList with all of the cards currently in the deck
      * @return An ArrayList of card objects
@@ -403,7 +418,7 @@ public class Deck {
      * Gets the number of cards in the deck
      * @return Number of cards in deck
      */
-    public int getSize(){
+    public int size(){
         return myDeck.size();
     }
 
