@@ -12,4 +12,4 @@ A few minor additions such as:
   - Card now implements the Comparable Interface
   - Added more JavaDocs
 ### Download
-JAR File: [v1.01](https://mega.nz/#!EsBhHA7L!Yuh9Q2zeY5iyX16x7CxETMf3vzcSHyWEDtM0N_gXX6U)
+JAR File: [v1.01](http://bit.ly/2FJLtGa)
