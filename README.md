@@ -6,7 +6,7 @@ A Java library used to simulate a 52 card playing deck by Nathan Breunig.
   - Various Customization: Joker use, editing of suit tie breaker values, ace high or low, and changing values of face cards
   - Generic methods used in data structures: contains, frequency, sort, toString, clear, etc. 
 ## Version 1.02
-### Changes in progress
+### Additions/Changes: 
   - Added isEmpty() method
   - Added contains(Card) method
   - Changed getSize() method signature to size()
@@ -19,3 +19,6 @@ A Java library used to simulate a 52 card playing deck by Nathan Breunig.
   - Added isEmpty() method for PlayerHand
   - Deal method now returns an ArrayList of PlayerHand objects
   - Other minor changes
+
+### Download
+JAR File: [v1.02](Coming soon...)
