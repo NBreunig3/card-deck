@@ -21,4 +21,4 @@ A Java library used to simulate a 52 card playing deck by Nathan Breunig.
   - Other minor changes
 
 ### Download
-JAR File: [v1.02](Coming soon...)
+JAR File: [v1.02](http://bit.ly/2NfkYZT)
