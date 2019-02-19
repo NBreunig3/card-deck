@@ -1,6 +1,7 @@
 package DeckOfCards;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Random;
  * @author Nathan Breunig
  *
  */
-public class PlayerHand {
+public class PlayerHand implements Iterable<Card> {
     private ArrayList<Card> hand;
 
     /**
@@ -26,6 +27,15 @@ public class PlayerHand {
     public boolean contains(String card){
         for (int i = 0; i < hand.size(); i++){
             if (hand.get(i).equals(card)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contains(Card card){
+        for (int i = 0; i < hand.size(); i++){
+            if (hand.get(i) == (card)){
                 return true;
             }
         }
@@ -57,12 +67,11 @@ public class PlayerHand {
 
     /**
      * Adds a card to the players hand
-     * @param pos The position to add it at (Ex. 1)
+     * @param index The index to add it at
      * @param card The card to add
      */
-    public void add(int pos,Card card){
-        pos-=1;
-        hand.add(pos, card);
+    public void add(int index, Card card){
+        hand.add(index, card);
     }
 
     /**
@@ -78,13 +87,33 @@ public class PlayerHand {
      * @param card A card as a string
      * @return A Card object
      */
-    public Card remove(String card){
+    public boolean remove(String card){
+        boolean removed = false;
+
         for (int i = 0; i < hand.size(); i++){
             if (hand.get(i).toString().equals(card)){
-                return hand.remove(i);
+                hand.remove(i);
+                removed = true;
             }
         }
-        return null;
+        return removed;
+    }
+
+    /**
+     * Removes a certain card from the deck
+     * @param card Card to remove
+     * @return True if a card was removed
+     */
+    public boolean remove(Card card){
+        boolean removed = false;
+
+        for (int i = 0; i < hand.size(); i++){
+            if (hand.get(i) == card){
+                hand.remove(i);
+                removed = true;
+            }
+        }
+        return removed;
     }
 
     /**
@@ -93,36 +122,43 @@ public class PlayerHand {
      * @param suit A suit as string
      * @return
      */
-    public Card remove(String card, String suit){
+    public boolean remove(String card, String suit){
+        boolean removed = false;
+
         for (int i = 0; i < hand.size(); i++){
             if (hand.get(i).equals(card) && hand.get(i).getSuit().equals(suit)){
-                return hand.remove(i);
+                hand.remove(i);
+                removed = true;
             }
         }
-        return null;
+        return removed;
     }
 
     /**
      * Removes a random card from the hand
      * @return A Card object
      */
-    public Card removeRandom(){
+    public boolean removeRandom(){
         Random rand = new Random();
         if (hand.size() > 0){
-            return hand.remove(rand.nextInt(hand.size()));
+            hand.remove(rand.nextInt(hand.size()));
+            return true;
         }else{
-            throw new Error("No cards in hand");
+            return false;
         }
     }
 
     /**
      * Removes a card from the hand based on position
-     * @param pos Position of card in hand
+     * @param index Index of card in hand
      * @return
      */
-    public Card remove(int pos){
-        pos -= 1;
-        return hand.remove(pos);
+    public Card remove(int index){
+        if (index >= 0 && index < hand.size()){
+            return hand.remove(index);
+        }else{
+            throw new IndexOutOfBoundsException("Card does not exist");
+        }
     }
 
     /**
@@ -180,5 +216,42 @@ public class PlayerHand {
      */
     public void clear(){
         hand.clear();
+    }
+
+    /**
+     * Checks if the hand is empty
+     * @return true if empty
+     */
+    public boolean isEmpty(){
+        return hand.isEmpty();
+    }
+
+    /**
+     * Gets an iterator for PlayerHand
+     * @return iterator
+     */
+    public Iterator iterator(){
+        return new Iterator();
+    }
+
+    /**
+     * An iterator for a PlayerHand
+     */
+    private class Iterator implements java.util.Iterator<Card> {
+        private int currentIndex = -1;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < hand.size() - 1;
+        }
+
+        @Override
+        public Card next() {
+            if (!hasNext()){
+                throw new NoSuchElementException("");
+            }
+            currentIndex++;
+            return hand.get(currentIndex);
+        }
     }
 }

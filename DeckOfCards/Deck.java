@@ -1,14 +1,12 @@
 package DeckOfCards;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A standard deck of playing cards with various useful methods
  * @author Nathan Breunig
- * @version 1.01
+ * @version 1.02
  */
-public class Deck {
+public class Deck implements Iterable<Card>{
     private ArrayList<Card> myDeck = new ArrayList<Card>();
     private final ArrayList<Card> deck = new ArrayList<Card>();
     private ArrayList<PlayerHand> hands = new ArrayList<PlayerHand>();
@@ -94,6 +92,35 @@ public class Deck {
         shuffle();
     }
 
+    /**
+     * An Iterator for the Deck
+     */
+    private class Iterator implements java.util.Iterator<Card> {
+        private int currentIndex = -1;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < myDeck.size() - 1;
+        }
+
+        @Override
+        public Card next() {
+            if (!hasNext()){
+                throw new NoSuchElementException("");
+            }
+            currentIndex++;
+            return myDeck.get(currentIndex);
+        }
+    }
+
+    /**
+     * Method to get the Deck iterator
+     * @return an iterator
+     */
+    public Iterator iterator(){
+        return new Iterator();
+    }
+
     private void resetDeck() {
         deck.clear();
         myDeck.clear();
@@ -177,6 +204,10 @@ public class Deck {
         Collections.sort(myDeck);
     }
 
+    public boolean isEmpty(){
+        return myDeck.isEmpty();
+    }
+
     /**
      * Will shuffle/scramble the order of cards in the deck
      */
@@ -245,14 +276,15 @@ public class Deck {
 
     /**
      * Adds a card to the deck
-     * @param position The position in which to insert the card at
+     * @param index The index in which to insert the card at
      * @param card The card to add
      */
-    public void add(int position, Card card){
-        if (position >= 1 && position <= myDeck.size()){
-            position -=1;
-            myDeck.add(position, card);
+    public boolean add(int index, Card card){
+        if (index >= 0 && index < myDeck.size()){
+            myDeck.add(index, card);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -261,6 +293,36 @@ public class Deck {
      */
     public void addFirst(Card card){
         myDeck.add(0, card);
+    }
+
+    /**
+     * Adds all cards from a PlayerHand
+     * @param playerHand A PlayerHand object
+     * @return true if anything was added
+     */
+    public boolean addAll(PlayerHand playerHand){
+        if (playerHand.isEmpty()){
+            return false;
+        }
+        for (Card c : playerHand){
+            myDeck.add(c);
+        }
+        return true;
+    }
+
+    /**
+     * Adds all cards from an ArrayList of Cards
+     * @param arr an ArrayList
+     * @return true if anything was added
+     */
+    public boolean addAll(ArrayList<Card> arr){
+        if (arr.isEmpty()){
+            return false;
+        }
+        for (Card c : arr){
+            myDeck.add(c);
+        }
+        return true;
     }
 
     /**
@@ -318,21 +380,20 @@ public class Deck {
 
     /**
      * Gets a card from the deck at a certain position
-     * @param cardNum The card number to remove (first, second, etc)
+     * @param index The index to remove at
      * @param removeCard Remove the card from the deck?
      * @return A card object
      */
-    public Card getCard(int cardNum, boolean removeCard){
+    public Card getCard(int index, boolean removeCard){
         Card card = new Card();
-        cardNum -=1;
 
         if (removeCard){
-            if (cardNum < myDeck.size() && cardNum >= 0){
-                card = myDeck.remove(cardNum);
+            if (index < myDeck.size() && index >= 0){
+                card = myDeck.remove(index);
             }
         }else if (!removeCard){
-            if (cardNum < myDeck.size() && cardNum >= 0){
-                card = myDeck.get(cardNum);
+            if (index < myDeck.size() && index >= 0){
+                card = myDeck.get(index);
             }
         }
         return card;
@@ -385,25 +446,22 @@ public class Deck {
         return exist;
     }
 
-    /**
-     * Creates an ArrayList with all of the cards currently in the deck
-     * @return An ArrayList of card objects
-     */
-    public ArrayList<Card> getDeck(){
-        ArrayList<Card> deck = new ArrayList<>();
+    public boolean contains(Card card){
+        boolean exist = false;
 
         for (int i = 0; i < myDeck.size(); i++){
-            deck.add(myDeck.get(i));
+            if (myDeck.get(i).toString().equals(card.toString())){
+                exist = true;
+            }
         }
-
-        return deck;
+        return exist;
     }
 
     /**
      * Gets the number of cards in the deck
      * @return Number of cards in deck
      */
-    public int getSize(){
+    public int size(){
         return myDeck.size();
     }
 
@@ -429,7 +487,8 @@ public class Deck {
      * @param numOfPlayers number of players to deal to
      * @param numOfCards number of cards to give to each player
      */
-    public void deal(boolean alternating, int numOfPlayers, int numOfCards) {
+    public ArrayList<PlayerHand> deal(boolean alternating, int numOfPlayers, int numOfCards) {
+        hands.clear();
         int totalCards = numOfCards * numOfPlayers;
 
         for (int i = 0; i < numOfPlayers; i++){
@@ -457,13 +516,15 @@ public class Deck {
                 throw new Error("Can't pull more cards than there are in the deck");
             }
         }
+        return hands;
     }
 
     /**
      * Deals out all remaining cards in the deck, even if the players will have uneven amounts
      * @param players Number of players to deal to
      */
-    public void dealAll(int players){
+    public ArrayList<PlayerHand> dealAll(int players){
+        hands.clear();
         int p = 1;
 
         for (int i = 1; i <= players; i++){
@@ -478,6 +539,7 @@ public class Deck {
                 p = 1;
             }
         }
+        return hands;
     }
 
     /**
@@ -485,7 +547,7 @@ public class Deck {
      * @param player Which players hand
      * @return A PlayerHand object
      */
-      public PlayerHand getPlayerHand(int player){
+    public PlayerHand getPlayerHand(int player){
         player -=1;
 
         if (player < hands.size() && player > -1){
@@ -493,6 +555,14 @@ public class Deck {
         }else{
             throw new Error("Player " + player + " does not exist");
         }
+    }
+
+    /**
+     * Gets an ArrayList of all current PlayerHands
+     * @return
+     */
+    public ArrayList<PlayerHand> getPlayerHands(){
+        return hands;
     }
     
     /**
@@ -503,56 +573,90 @@ public class Deck {
     }
 
     /**
-     * Removes the next X number of cards
+     * Removes the first card from the deck
+     * @return The card burned
+     */
+    public boolean burnCard(){
+        if (!myDeck.isEmpty()){
+            myDeck.remove(0);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Removes the next X number of cards from the front of the deck (index 0)
      * @param numOfCards How many cards to remove
      */
-    public void removeCards(int numOfCards){
+    public void removeMore(int numOfCards){
         if (numOfCards <= myDeck.size() && numOfCards > 0){
             for (int i = 1; i <= numOfCards; i++){
                 myDeck.remove(0);
             }
-        }else{
-            throw new Error("Can't remove more cards than there are in deck");
         }
     }
 
     /**
      * Removes ALL cards of a certain value (no matter suit)
      * @param card The card(s) as a string to remove
+     * @return True if a card was removed
      */
-    public Card removeCard(String card){
+    public boolean remove(String card){
+        boolean removed = false;
+
         for (int i = 0; i < myDeck.size(); i++){
             if (myDeck.get(i).toString().equals(card)){
-                return myDeck.remove(i);
+                myDeck.remove(i);
+                removed = true;
             }
         }
-        return null;
+        return removed;
+    }
+
+    /**
+     * Removes a certain card from the deck
+     * @param card The card to remove
+     * @return True if a card was removed
+     */
+    public boolean remove(Card card){
+        boolean removed = false;
+
+        for (int i = 0; i < myDeck.size(); i++){
+            if (myDeck.get(i) == card){
+                myDeck.remove(i);
+                removed = true;
+            }
+        }
+        return removed;
     }
 
     /**
      * Removes a card with a certain suit
      * @param card The card as a string to remove
      * @param suit The suit as a string to remove
+     * @return True if a card was removed
      */
-    public Card removeCard(String card, String suit) {
+    public boolean remove(String card, String suit) {
+        boolean removed = false;
+
         for (int i = 0; i < myDeck.size(); i++) {
             if (myDeck.get(i).toString().equals(card) && myDeck.get(i).getSuit().equals(suit)) {
-                return myDeck.remove(i);
+                myDeck.remove(i);
+                removed = true;
             }
         }
-        return null;
+        return removed;
     }
 
     /**
      * Removes a card from the deck based on its position
-     * @param cardNum The card to remove (first, second, etc)
+     * @param index Index of card to remove
      */
-    public Card removeCard(int cardNum){
-        cardNum -=1;
-        if (cardNum >= 0 && cardNum < myDeck.size()){
-            return myDeck.remove(cardNum);
+    public Card remove(int index){
+        if (index >= 0 && index < myDeck.size()){
+            return myDeck.remove(index);
         }else {
-            throw new Error("Card does not exist");
+            throw new NoSuchElementException("Card does not exist");
         }
     }
 
@@ -560,13 +664,13 @@ public class Deck {
      * Removes a random card from the deck
      * @return A Card object
      */
-    public Card removeRandom(){
+    public boolean removeRandom(){
         Random rand = new Random();
         if (myDeck.size() > 0){
-            return myDeck.remove(rand.nextInt(myDeck.size()));
-        }else{
-            throw new Error("Deck is empty");
+            myDeck.remove(rand.nextInt(myDeck.size()));
+            return true;
         }
+        return false;
     }
 
     /**
@@ -580,7 +684,7 @@ public class Deck {
      * Sets ace high or low
      * @param acesHigh True for high, false for low
      */
-    public void setAcesHigh(boolean acesHigh){
+    public void setAceHigh(boolean acesHigh){
         this.acesHigh = acesHigh;
     }
 
@@ -591,12 +695,8 @@ public class Deck {
     public String toString(){
         String temp = "";
 
-        if (myDeck.size() == 0){
-            throw new Error("Deck is empty. Needs to be shuffled");
-        }else{
-            for (int i = 0; i < myDeck.size(); i++){
-                temp += myDeck.get(i) + " ";
-            }
+        for (int i = 0; i < myDeck.size(); i++) {
+            temp += myDeck.get(i) + " ";
         }
         return temp;
     }
