@@ -1,7 +1,6 @@
 # card-deck
 A Java library used to simulate a 52 card playing deck by Nathan Breunig.
-## Version 1.02
+## Version 1.03
 ### Changes in progress
-  - Added isEmpty() method
-  - Added contains(Card) method
-  - Changed getSize() method signature to size()
+  - Minor method signature changes
+  - Added a reset method
