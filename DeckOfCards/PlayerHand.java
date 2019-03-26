@@ -172,29 +172,23 @@ public class PlayerHand implements Iterable<Card> {
     /**
      * Gets a card from the hand based on position
      * @param pos Position of card in hand
-     * @return
+     * @return Card
      */
-    public Card get(int pos, boolean remove){
-        if (remove){
-            pos -=1;
-            return hand.remove(pos);
-        }else{
-            pos -=1;
-            return hand.get(pos);
-        }
-    }
-
     public Card get(int pos){
-        pos-=1;
+        pos -=1;
         return hand.get(pos);
+
     }
 
-    public Card getNext(boolean remove){
-        if (remove){
-            return hand.remove(0);
-        }else{
+    /**
+     * Gets the next card in a players ahnd
+     * @return Next card
+     */
+    public Card getNext(){
+        if (!hand.isEmpty()) {
             return hand.get(0);
         }
+        throw new NoSuchElementException();
     }
 
     /**

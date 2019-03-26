@@ -213,6 +213,7 @@ public class Deck implements Iterable<Card>{
      */
     public void reset(){
         resetDeck();
+        shuffle();
     }
 
     /**
@@ -650,13 +651,13 @@ public class Deck implements Iterable<Card>{
      * Removes a random card from the deck
      * @return A Card object
      */
-    public boolean removeRandom(){
+    public Card removeRandom(){
         Random rand = new Random();
         if (myDeck.size() > 0){
-            myDeck.remove(rand.nextInt(myDeck.size()));
-            return true;
+            return myDeck.remove(rand.nextInt(myDeck.size()));
+        }else{
+            throw new Error("Deck is empty");
         }
-        return false;
     }
 
     /**
