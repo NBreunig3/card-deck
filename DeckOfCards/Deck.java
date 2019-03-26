@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * A standard deck of playing cards with various useful methods
  * @author Nathan Breunig
- * @version 1.02
+ * @version 1.03
  */
 public class Deck implements Iterable<Card>{
     private ArrayList<Card> myDeck = new ArrayList<Card>();
@@ -24,11 +24,11 @@ public class Deck implements Iterable<Card>{
     public Deck(boolean highAce, boolean jokers) {
         acesHigh = highAce;
         useJokers = jokers;
-        jokerValue = -1;
-        heartValue = 0;
-        spadeValue = 0;
-        clubValue = 0;
-        diamondValue = 0;
+        jokerValue = 0;
+        heartValue = 1;
+        spadeValue = 2;
+        clubValue = 3;
+        diamondValue = 4;
         jackValue = 11;
         queenValue = 12;
         kingValue = 13;
@@ -49,10 +49,10 @@ public class Deck implements Iterable<Card>{
     public Deck(boolean jokers, int aceValue, int jackValue, int queenValue, int kingValue) {
         useJokers = jokers;
         jokerValue = 0;
-        heartValue = 0;
-        spadeValue = 0;
-        clubValue = 0;
-        diamondValue = 0;
+        heartValue = 1;
+        spadeValue = 2;
+        clubValue = 3;
+        diamondValue = 4;
         this.aceValue = aceValue;
         this.jackValue = jackValue;
         this.queenValue = queenValue;
@@ -209,6 +209,13 @@ public class Deck implements Iterable<Card>{
     }
 
     /**
+     * Resets the deck back to the standard 52-cards
+     */
+    public void reset(){
+        resetDeck();
+    }
+
+    /**
      * Will shuffle/scramble the order of cards in the deck
      */
     public void shuffle() {
@@ -315,7 +322,7 @@ public class Deck implements Iterable<Card>{
      * @param arr an ArrayList
      * @return true if anything was added
      */
-    public boolean addAll(ArrayList<Card> arr){
+    public boolean addAll(List<Card> arr){
         if (arr.isEmpty()){
             return false;
         }
@@ -356,47 +363,26 @@ public class Deck implements Iterable<Card>{
 
     /**
      * Gets the next card from the deck
-     * @param removeCard Remove the card from the deck?
      * @return A card object
      */
-    public Card getNextCard(boolean removeCard) {
-        Card card = new Card();
-
-        if (removeCard){
-            if (myDeck.size() != 0) {
-                card = myDeck.remove(0);
-            } else {
-                throw new Error("Can't pull more cards than there are in the deck");
-            }
-        }else if(!removeCard){
-            if (myDeck.size() != 0) {
-                card = myDeck.get(0);
-            } else {
-                throw new Error("Can't pull more cards than there are in the deck");
-            }
+    public Card getNext() {
+        if (myDeck.size() != 0) {
+            return myDeck.get(0);
+        } else {
+            throw new Error("Can't pull more cards than there are in the deck");
         }
-        return card;
     }
 
     /**
      * Gets a card from the deck at a certain position
      * @param index The index to remove at
-     * @param removeCard Remove the card from the deck?
      * @return A card object
      */
-    public Card getCard(int index, boolean removeCard){
-        Card card = new Card();
-
-        if (removeCard){
-            if (index < myDeck.size() && index >= 0){
-                card = myDeck.remove(index);
-            }
-        }else if (!removeCard){
-            if (index < myDeck.size() && index >= 0){
-                card = myDeck.get(index);
-            }
+    public Card get(int index){
+        if (index < myDeck.size() && index >= 0){
+            return myDeck.get(index);
         }
-        return card;
+        throw new IndexOutOfBoundsException("Index out of bounds" + index);
     }
 
     /**

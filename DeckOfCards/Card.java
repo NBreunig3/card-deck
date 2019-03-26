@@ -9,8 +9,6 @@ public class Card implements Comparable<Card> {
     private String suit;
     private Deck cardDeck;
 
-    public Card(){}
-
     /**
      * Constructs a card with a face value and a suit
      * @param card Card as string
@@ -28,7 +26,7 @@ public class Card implements Comparable<Card> {
             return -1;
         }else if (this.getValue() > card.getValue()){
             return 1;
-        }else{ //this = that...base off of suit
+        }else{
             if (cardDeck.getHeartValue() == 0 && cardDeck.getSpadeValue() == 0 && cardDeck.getDiamondValue() == 0 && cardDeck.getClubValue() == 0){
                 return 0;
             }else{ //else suits matter
@@ -113,7 +111,7 @@ public class Card implements Comparable<Card> {
         }else if (strCard.equals("13")) {
             return "K";
         } else{
-            return String.valueOf(strCard);
+            return strCard;
         }
     }
 }
