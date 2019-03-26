@@ -9,7 +9,7 @@ import java.util.Random;
  * @author Nathan Breunig
  *
  */
-public class PlayerHand implements Iterable<Card> {
+public class PlayerHand implements Iterable<Card>{
     private ArrayList<Card> hand;
 
     /**

@@ -334,6 +334,23 @@ public class Deck implements Iterable<Card>{
     }
 
     /**
+     * Adds all cards from an ArrayList of Cards
+     * @param arr an ArrayList
+     * @return true if anything was added
+     */
+    public boolean addAllHands(List<PlayerHand> arr){
+        if (arr.isEmpty()){
+            return false;
+        }
+        for (PlayerHand p : arr){
+            for (Card c : p){
+                myDeck.add(c);
+            }
+        }
+        return true;
+    }
+
+    /**
      * Gets the next X numbers of cards from the deck and puts them into an ArrayList
      * @param numOfCards Number of cards to put into array
      * @param removeCards Remove the cards from the deck?
@@ -550,6 +567,13 @@ public class Deck implements Iterable<Card>{
      */
     public ArrayList<PlayerHand> getPlayerHands(){
         return hands;
+    }
+
+    /**
+     * Clears all players hands
+     */
+    public void clearPlayerHands(){
+        hands.clear();
     }
     
     /**
