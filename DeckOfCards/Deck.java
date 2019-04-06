@@ -263,6 +263,19 @@ public class Deck implements Iterable<Card>{
     }
 
     /**
+     * Sets a given index to a card
+     * @param index index to set
+     * @param card card to place at said index
+     */
+    public void set(int index, Card card){
+       if (index >= 0 && index < size()){
+           myDeck.set(index, card);
+       }else {
+           throw new IndexOutOfBoundsException(index + " is out of bounds. ");
+       }
+    }
+
+    /**
      * Adds a card to the end of the deck
      * @param card The card to add
      */

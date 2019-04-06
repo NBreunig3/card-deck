@@ -2,7 +2,6 @@ package DeckOfCards;
 
 /**
  * A card with a face value and suit
- *
  * @author Nathan Breunig
  */
 public class Card implements Comparable<Card> {
@@ -15,7 +14,7 @@ public class Card implements Comparable<Card> {
      * @param card     Card as string. Ex. ("5", "10", "Jack", "King")
      * @param cardSuit Suit as String
      */
-    public Card(Deck deck, String card, String cardSuit) {
+    public Card(Deck deck, String card, String cardSuit){
         strCard = card;
         suit = cardSuit;
         cardDeck = deck;
