@@ -675,6 +675,20 @@ public class Deck implements Iterable<Card>{
         return temp;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof Deck)){
+            return false;
+        }else {
+            Deck other = (Deck)o;
+            if (myDeck.equals(other.myDeck)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
     /**
      * Gets the number of current player hands
      * @return number of player hands

@@ -5,6 +5,7 @@ A Java library used to simulate a 52 card playing deck by Nathan Breunig.
   - Deck no longer sorts on instantiation
   - Added equals method for the Card object
   - Added "set(int, Card)" method to deck
+  - Added "equals(Object)" method to deck
   - Card "toString()" method has changed behavior. Ex. "4 of Hearts"
   - Added an "abbreviation()" method to Card
   - Removed a variety of "contains(String)" and "remove(String)" methods to force use of type "contains(Card)" for example.
