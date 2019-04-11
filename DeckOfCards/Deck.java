@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * A standard deck of playing cards with various useful methods
  * @author Nathan Breunig
- * @version 1.03
+ * @version 1.04
  */
 public class Deck implements Iterable<Card>{
     private ArrayList<Card> myDeck = new ArrayList<Card>();
