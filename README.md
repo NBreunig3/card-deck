@@ -1,7 +1,13 @@
 # card-deck
 A Java library used to simulate a 52 card playing deck by Nathan Breunig.
+### Features
+  - Basic shuffling/removing/adding
+  - Dealing
+  - Various Customization: Joker use, editing of suit tie breaker values, ace high or low, and changing values of face cards
+  - Generic methods used in data structures: contains, frequency, sort, toString, clear, etc. 
+  - Much more!
 ## Version 1.03
-### Changes in progress
+### Additions/Changes: 
   - Deck no longer sorts on instantiation
   - Added "equals(Object)"" method to Card
   - Added "set(int, Card)" method to Deck
@@ -14,3 +20,6 @@ A Java library used to simulate a 52 card playing deck by Nathan Breunig.
   - Added an "addAllHands()" method to add all cards in all player hands back into the deck
   - "removeRandom()" now returns a Card object
   - Miscellaneous method signature changes
+  
+### Download
+JAR File: [v1.03](http://bit.ly/2Z1NG6h)
