@@ -97,22 +97,22 @@ public class Card implements Comparable<Card> {
     }
 
     /**
-     * Gets the Card as its value abbreviated.
-     * Ex. "4", "7", "K", "A", etc.
+     * Gets the Card as its name as a string
+     * Ex. "4", "7", "King", "Ace", etc.
      *
      * @return rank as string
      */
-    public String abbreviation() {
+    public String nameOfCard() {
         if (strCard.equals("Ace")) {
-           return "A";
+           return "Ace";
         } else if (strCard.equals("Jack")) {
-            return "J";
+            return "Jack";
         } else if (strCard.equals("Queen")) {
-            return "Q";
+            return "Queen";
         } else if (strCard.equals("King")) {
-            return "K";
+            return "King";
         } else if (strCard.equals("Joker")){
-            return "J";
+            return "Jack";
         } else {
             return strCard;
         }
@@ -142,10 +142,24 @@ public class Card implements Comparable<Card> {
     }
 
     /**
+     * Determines if this card is a face card
+     * Jack, Queen and King are the only face cards
+     * @return
+     */
+    public boolean isFaceCard(){
+        if (nameOfCard().equals("Jack") || nameOfCard().equals("Queen") || nameOfCard().equals("King")){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
      * Method to determine equality between Card objects
      *
      * @param o Object to compare to
-     * @return true if the object in the parameter is equal to this card
+     * @return true if the object in the parameter is equal to this card.
+     * Card value and suit must match
      */
     @Override
     public boolean equals(Object o) {

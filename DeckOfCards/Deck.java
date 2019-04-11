@@ -434,7 +434,7 @@ public class Deck implements Iterable<Card>{
             return false;
         }else {
             for (int i = 0; i < myDeck.size(); i++){
-                if (myDeck.get(i).abbreviation().equals(card.abbreviation())){
+                if (myDeck.get(i).nameOfCard().equals(card.nameOfCard())){
                     return true;
                 }
             }
@@ -458,7 +458,7 @@ public class Deck implements Iterable<Card>{
     public int cardFrequency(Card card){
         int counter = 0;
         for(int i = 0; i < myDeck.size(); i++){
-            if (myDeck.get(i).abbreviation().equals(card.abbreviation())){
+            if (myDeck.get(i).nameOfCard().equals(card.nameOfCard())){
                 counter++;
             }
         }
@@ -607,7 +607,7 @@ public class Deck implements Iterable<Card>{
             int toRemove = cardFrequency(card);
             while (toRemove > 0){
                 for (int i = 0; i < myDeck.size(); i++){
-                    if (myDeck.get(i).abbreviation().equals(card.abbreviation())){
+                    if (myDeck.get(i).nameOfCard().equals(card.nameOfCard())){
                         myDeck.remove(i);
                         removed = true;
                         break;
@@ -667,9 +667,9 @@ public class Deck implements Iterable<Card>{
         String temp = "[";
         for (int i = 0; i < myDeck.size(); i++){
             if (i == myDeck.size() - 1){
-                temp += myDeck.get(i).abbreviation() + "]";
+                temp += myDeck.get(i).nameOfCard() + "]";
             }else {
-                temp += myDeck.get(i).abbreviation() + ", ";
+                temp += myDeck.get(i).nameOfCard() + ", ";
             }
         }
         return temp;

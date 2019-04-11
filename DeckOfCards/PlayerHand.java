@@ -35,7 +35,7 @@ public class PlayerHand implements Iterable<Card>{
             return false;
         }else {
             for (Card c : hand){
-                if (c.abbreviation().equals(card.abbreviation())){
+                if (c.nameOfCard().equals(card.nameOfCard())){
                     return true;
                 }
             }
@@ -87,7 +87,7 @@ public class PlayerHand implements Iterable<Card>{
             boolean removed = false;
             for (int i = 0 ; i < hand.size(); i++){
                 for (int j = 0; j < hand.size(); j++){
-                    if (hand.get(j).abbreviation().equals(card.abbreviation())){
+                    if (hand.get(j).nameOfCard().equals(card.nameOfCard())){
                         hand.remove(j);
                         removed = true;
                         break;
@@ -163,9 +163,9 @@ public class PlayerHand implements Iterable<Card>{
         String string = "[";
         for (int i = 0; i < hand.size(); i++){
             if (i == hand.size() - 1){
-                string += hand.get(i).abbreviation() + "]";
+                string += hand.get(i).nameOfCard() + "]";
             }else {
-                string += hand.get(i).abbreviation() + ", ";
+                string += hand.get(i).nameOfCard() + ", ";
             }
         }
         return string;
