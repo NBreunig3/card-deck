@@ -9,7 +9,7 @@ import java.util.Random;
  * @author Nathan Breunig
  *
  */
-public class PlayerHand implements Iterable<Card> {
+public class PlayerHand implements Iterable<Card>{
     private ArrayList<Card> hand;
 
     /**
@@ -20,41 +20,27 @@ public class PlayerHand implements Iterable<Card> {
     }
 
     /**
-     * Checking if a certain card (no matter suit) is in the hand
-     * @param card A card as string
-     * @return True if card is in hand, false otherwise
+     * Checks to see if a certain card is in this PlayerHand
+     * @param card Card to check if contained
+     * @param suitMatters if true suits of cards must match, otherwise just rank
+     * @return true if card is in the PlayerHand
      */
-    public boolean contains(String card){
-        for (int i = 0; i < hand.size(); i++){
-            if (hand.get(i).equals(card)){
-                return true;
+    public boolean contains(Card card, boolean suitMatters){
+        if (suitMatters){
+            for (Card c : hand){
+                if (c.equals(card)){
+                    return true;
+                }
             }
-        }
-        return false;
-    }
-
-    public boolean contains(Card card){
-        for (int i = 0; i < hand.size(); i++){
-            if (hand.get(i) == (card)){
-                return true;
+            return false;
+        }else {
+            for (Card c : hand){
+                if (c.nameOfCard().equals(card.nameOfCard())){
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
-    }
-
-    /**
-     * Checking if a certain card (suit included) is in the hand
-     * @param card A card as string
-     * @param suit A suit as string
-     * @return True if card is in hand, false otherwise
-     */
-    public boolean contains(String card, String suit){
-        for (int i = 0; i < hand.size(); i++){
-            if (hand.get(i).equals(card) && hand.get(i).getSuit().equals(suit)){
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -83,55 +69,33 @@ public class PlayerHand implements Iterable<Card> {
     }
 
     /**
-     * Removes ALL cards of a certain value (no matter suit)
-     * @param card A card as a string
-     * @return A Card object
-     */
-    public boolean remove(String card){
-        boolean removed = false;
-
-        for (int i = 0; i < hand.size(); i++){
-            if (hand.get(i).toString().equals(card)){
-                hand.remove(i);
-                removed = true;
-            }
-        }
-        return removed;
-    }
-
-    /**
      * Removes a certain card from the deck
      * @param card Card to remove
+     * @param suitMatters if true suits of cards must match, otherwise just rank
      * @return True if a card was removed
      */
-    public boolean remove(Card card){
-        boolean removed = false;
-
-        for (int i = 0; i < hand.size(); i++){
-            if (hand.get(i) == card){
-                hand.remove(i);
-                removed = true;
+    public boolean remove(Card card, boolean suitMatters){
+        if (suitMatters){
+            for (int i = 0; i < hand.size(); i++){
+                if (hand.get(i).equals(card)){
+                    hand.remove(i);
+                    return true;
+                }
             }
-        }
-        return removed;
-    }
-
-    /**
-     * Removes a certain card (suit included)
-     * @param card A card as string
-     * @param suit A suit as string
-     * @return
-     */
-    public boolean remove(String card, String suit){
-        boolean removed = false;
-
-        for (int i = 0; i < hand.size(); i++){
-            if (hand.get(i).equals(card) && hand.get(i).getSuit().equals(suit)){
-                hand.remove(i);
-                removed = true;
+            return false;
+        }else {
+            boolean removed = false;
+            for (int i = 0 ; i < hand.size(); i++){
+                for (int j = 0; j < hand.size(); j++){
+                    if (hand.get(j).nameOfCard().equals(card.nameOfCard())){
+                        hand.remove(j);
+                        removed = true;
+                        break;
+                    }
+                }
             }
+            return removed;
         }
-        return removed;
     }
 
     /**
@@ -172,29 +136,23 @@ public class PlayerHand implements Iterable<Card> {
     /**
      * Gets a card from the hand based on position
      * @param pos Position of card in hand
-     * @return
+     * @return Card
      */
-    public Card get(int pos, boolean remove){
-        if (remove){
-            pos -=1;
-            return hand.remove(pos);
-        }else{
-            pos -=1;
-            return hand.get(pos);
-        }
-    }
-
     public Card get(int pos){
-        pos-=1;
+        pos -=1;
         return hand.get(pos);
+
     }
 
-    public Card getNext(boolean remove){
-        if (remove){
-            return hand.remove(0);
-        }else{
+    /**
+     * Gets the next card in a players ahnd
+     * @return Next card
+     */
+    public Card getNext(){
+        if (!hand.isEmpty()) {
             return hand.get(0);
         }
+        throw new NoSuchElementException();
     }
 
     /**
@@ -202,12 +160,14 @@ public class PlayerHand implements Iterable<Card> {
      * @return String of cards
      */
     public String toString(){
-        String string = "";
-
+        String string = "[";
         for (int i = 0; i < hand.size(); i++){
-            string += hand.get(i) + " ";
+            if (i == hand.size() - 1){
+                string += hand.get(i).nameOfCard() + "]";
+            }else {
+                string += hand.get(i).nameOfCard() + ", ";
+            }
         }
-
         return string;
     }
 
