@@ -466,6 +466,20 @@ public class Deck implements Iterable<Card>{
     }
 
     /**
+     * Gets the index of an object in the deck
+     * @param card card to find index of
+     * @return index if found, -1 otherwise
+     */
+    public int indexOf(Card card){
+        for (int i = 0; i < myDeck.size(); i++){
+            if (myDeck.get(i).equals(card)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * "Deals" X cards to X players
      * NOTE: Use method getPlayerHand to get the delt cards
      * @param alternating deal cards in an alternating way?
